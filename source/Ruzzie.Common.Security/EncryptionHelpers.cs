@@ -309,8 +309,7 @@ namespace Ruzzie.Common.Security
 
         private static byte[] AddPepper(byte[] salt)
         {
-            //TODO: FIX PEPPER USAGE
-            byte[] pepper = { 1, 3, 253, 2, 8, 134, 65, 87 };
+            byte[] pepper = { 1, 3, 253, 2, 8, 134, 65, 87 };// some arbitrary pepper for now
             byte[] result = new byte[salt.Length + pepper.Length];
             Buffer.BlockCopy(salt, 0, result, 0, salt.Length);
             Buffer.BlockCopy(pepper, 0, result, salt.Length, pepper.Length);
