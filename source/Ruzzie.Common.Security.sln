@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ruzzie.Common.Security", "Ruzzie.Common.Security\Ruzzie.Common.Security.csproj", "{64CAE433-3A0E-4E8A-A147-4EE6EF906772}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ruzzie.Common.Security.UnitTests", "Ruzzie.Common.Security.UnitTests\Ruzzie.Common.Security.UnitTests.csproj", "{1A504D3A-5134-400A-B4D3-4B072733ED56}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{64CAE433-3A0E-4E8A-A147-4EE6EF906772}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{64CAE433-3A0E-4E8A-A147-4EE6EF906772}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{64CAE433-3A0E-4E8A-A147-4EE6EF906772}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{64CAE433-3A0E-4E8A-A147-4EE6EF906772}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1A504D3A-5134-400A-B4D3-4B072733ED56}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1A504D3A-5134-400A-B4D3-4B072733ED56}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1A504D3A-5134-400A-B4D3-4B072733ED56}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1A504D3A-5134-400A-B4D3-4B072733ED56}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
