@@ -15,7 +15,6 @@
         <RepositoryType>git</RepositoryType>
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
         <Nullable>enable</Nullable>
-        <PackageLicenseUrl>https://github.com/Ruzzie/Ruzzie.Common.Security/blob/main/LICENSE</PackageLicenseUrl>
 
     </PropertyGroup>
 
