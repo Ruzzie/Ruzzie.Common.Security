@@ -34,18 +34,22 @@ namespace Ruzzie.Common.Security
             {
                 throw new ArgumentNullException(nameof(keyOne));
             }
+
             if (keyTwo == null)
             {
                 throw new ArgumentNullException(nameof(keyTwo));
             }
+
             if (string.IsNullOrWhiteSpace(encryptedString))
             {
                 throw new ArgumentException("Value cannot be null or whitespace.", nameof(encryptedString));
             }
+
             if (keyOne.Length == 0)
             {
                 throw new ArgumentException("Value cannot be an empty collection.", nameof(keyOne));
             }
+
             if (keyTwo.Length == 0)
             {
                 throw new ArgumentException("Value cannot be an empty collection.", nameof(keyTwo));
@@ -75,6 +79,7 @@ namespace Ruzzie.Common.Security
             {
                 throw new ArgumentNullException(nameof(encryptedBytes));
             }
+
             if (encryptedBytes.Length == 0)
             {
                 throw new ArgumentException("Value cannot be an empty collection.", nameof(encryptedBytes));
@@ -82,7 +87,7 @@ namespace Ruzzie.Common.Security
 
             using (var t = CreateEncryptionAlgorithm(keyOne, keyTwo))
             {
-                var decryptor = t.CreateDecryptor();
+                var           decryptor    = t.CreateDecryptor();
                 MemoryStream? memoryStream = null;
                 CryptoStream? cryptoStream = null;
                 try
@@ -93,7 +98,6 @@ namespace Ruzzie.Common.Security
                     {
                         using (var streamReader = new StreamReader(cryptoStream, Encoding))
                         {
-
                             var result = streamReader.ReadToEnd();
                             return result;
                         }
@@ -141,18 +145,22 @@ namespace Ruzzie.Common.Security
             {
                 throw new ArgumentNullException(nameof(keyOne));
             }
+
             if (keyTwo == null)
             {
                 throw new ArgumentNullException(nameof(keyTwo));
             }
+
             if (string.IsNullOrWhiteSpace(inputString))
             {
                 throw new ArgumentException("Value cannot be null or whitespace.", nameof(inputString));
             }
+
             if (keyOne.Length == 0)
             {
                 throw new ArgumentException("Value cannot be an empty collection.", nameof(keyOne));
             }
+
             if (keyTwo.Length == 0)
             {
                 throw new ArgumentException("Value cannot be an empty collection.", nameof(keyTwo));
@@ -211,7 +219,6 @@ namespace Ruzzie.Common.Security
             }
 
             return Convert.ToBase64String(EncryptBytes(Encoding.GetBytes(inputString), keyOne, keyTwo));
-
         }
 
         /// <summary>
@@ -225,7 +232,7 @@ namespace Ruzzie.Common.Security
         {
             using (var t = CreateEncryptionAlgorithm(keyOne, keyTwo))
             {
-                var encryptor = t.CreateEncryptor();
+                var           encryptor    = t.CreateEncryptor();
                 MemoryStream? memoryStream = null;
                 try
                 {
@@ -279,29 +286,37 @@ namespace Ruzzie.Common.Security
                 {
                     throw new ArgumentNullException(nameof(iv));
                 }
+
                 if (key == null)
                 {
                     throw new ArgumentNullException(nameof(key));
                 }
+
                 if (iv.Length == 0)
                 {
                     throw new ArgumentException("Value cannot be an empty collection.", nameof(iv));
                 }
+
                 if (key.Length == 0)
                 {
                     throw new ArgumentException("Value cannot be an empty collection.", nameof(key));
                 }
-                IV = iv;
+
+                IV  = iv;
                 Key = key;
             }
+
             // ReSharper disable once InconsistentNaming
-            internal byte[] IV { get;  }
+            internal byte[] IV  { get; }
             internal byte[] Key { get; }
         }
 
-        private static EncryptionInitSettings CreateInitSettings(byte[] keyOne, byte[] keyTwo, int keySizeInBytes = 32, int ivSizeInBytes = 16)
+        private static EncryptionInitSettings CreateInitSettings(byte[] keyOne
+                                                               , byte[] keyTwo
+                                                               , int    keySizeInBytes = 32
+                                                               , int    ivSizeInBytes  = 16)
         {
-            using (var db = new Rfc2898DeriveBytes(keyOne, AddPepper(keyTwo), 2048))
+            using (var db = new Rfc2898DeriveBytes(keyOne, AddPepper(keyTwo), 2048, HashAlgorithmName.SHA1))
             {
                 return new EncryptionInitSettings(db.GetBytes(ivSizeInBytes), db.GetBytes(keySizeInBytes));
             }
@@ -309,9 +324,9 @@ namespace Ruzzie.Common.Security
 
         private static byte[] AddPepper(byte[] salt)
         {
-            byte[] pepper = { 1, 3, 253, 2, 8, 134, 65, 87 };// some arbitrary pepper for now
+            byte[] pepper = { 1, 3, 253, 2, 8, 134, 65, 87 }; // some arbitrary pepper for now
             byte[] result = new byte[salt.Length + pepper.Length];
-            Buffer.BlockCopy(salt, 0, result, 0, salt.Length);
+            Buffer.BlockCopy(salt,   0, result, 0,           salt.Length);
             Buffer.BlockCopy(pepper, 0, result, salt.Length, pepper.Length);
             return result;
         }

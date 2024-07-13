@@ -14,6 +14,7 @@ namespace Ruzzie.Common.Security
         /// <param name="providedPassword">The password to hash.</param>
         /// <returns>A hashed representation of the supplied <paramref name="providedPassword"/></returns>
         string HashPassword(string providedPassword);
+
         /// <summary>
         /// Returns a <see cref="bool"/> indicating the result of a password hash comparison.
         /// </summary>
@@ -29,10 +30,10 @@ namespace Ruzzie.Common.Security
     public class PasswordHasher : IPasswordHasher
     {
         private readonly byte[] _pepper;
-        private const byte Version = 1;
-        private const int SaltSize = 16;//128 bits
-        private const int HashKeySize = 64;//512 bits
-        private const int Iterations = 10000;
+        private const    byte   Version     = 1;
+        private const    int    SaltSize    = 16; //128 bits
+        private const    int    HashKeySize = 64; //512 bits
+        private const    int    Iterations  = 10000;
 
         /// <summary>
         /// Creates a new <see cref="PasswordHasher"/> with the provided pepper.
@@ -63,16 +64,17 @@ namespace Ruzzie.Common.Security
                 throw new ArgumentException("Value cannot be null or whitespace.", nameof(providedPassword));
             }
 
-            Span<byte> saltNPepper = stackalloc byte[SaltSize+_pepper.Length];
+            Span<byte> saltNPepper = stackalloc byte[SaltSize + _pepper.Length];
 
             //Create salt
-            using var crypto = new RNGCryptoServiceProvider();
+            using var crypto = RandomNumberGenerator.Create();
             crypto.GetBytes(saltNPepper.Slice(0, SaltSize));
 
             //Add pepper
             _pepper.CopyTo(saltNPepper.Slice(SaltSize));
 
-            using var hasher = new Rfc2898DeriveBytes(providedPassword, saltNPepper.ToArray(), Iterations, HashAlgorithmName.SHA512);
+            using var hasher =
+                new Rfc2898DeriveBytes(providedPassword, saltNPepper.ToArray(), Iterations, HashAlgorithmName.SHA512);
 
             var hashKey = hasher.GetBytes(HashKeySize);
 
@@ -102,7 +104,7 @@ namespace Ruzzie.Common.Security
 
             Span<byte> hashedPasswordBytes = Convert.FromBase64String(hashedPassword);
 
-            Span<byte> saltNPepper = stackalloc byte[SaltSize+_pepper.Length];
+            Span<byte> saltNPepper = stackalloc byte[SaltSize + _pepper.Length];
 
             //Get the salt from the stored hash
             hashedPasswordBytes.Slice(1, SaltSize).CopyTo(saltNPepper.Slice(0, SaltSize));
@@ -111,7 +113,8 @@ namespace Ruzzie.Common.Security
             _pepper.CopyTo(saltNPepper.Slice(SaltSize));
 
             //Now Hash the provided password with the stored Salt (& local Pepper)
-            using var hasher = new Rfc2898DeriveBytes(providedPassword, saltNPepper.ToArray(), Iterations, HashAlgorithmName.SHA512);
+            using var hasher =
+                new Rfc2898DeriveBytes(providedPassword, saltNPepper.ToArray(), Iterations, HashAlgorithmName.SHA512);
 
             var providedHashKey = hasher.GetBytes(HashKeySize);
 
