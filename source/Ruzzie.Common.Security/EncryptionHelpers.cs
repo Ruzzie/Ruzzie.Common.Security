@@ -264,7 +264,9 @@ namespace Ruzzie.Common.Security
             }
         }
 
+#pragma warning disable SYSLIB0022
         private static RijndaelManaged CreateEncryptionAlgorithm(byte[] keyOne, byte[] keyTwo)
+
         {
             var initSettings = CreateInitSettings(keyOne, keyTwo);
             return new RijndaelManaged
@@ -277,6 +279,7 @@ namespace Ruzzie.Common.Security
                     Key = initSettings.Key
                 };
         }
+#pragma warning restore SYSLIB0022
 
         private readonly ref struct EncryptionInitSettings
         {
